@@ -15,22 +15,27 @@ use yii\data\ActiveDataProvider;
 
 class GridViewPanelled extends Widget
 {
-    /** @var string */
+    /** @var string Class name of the controller */
     public $controller;
-    /** @var ActiveDataProvider */
-    public $dataProvider;
-    /** @var string */
+    /** @var string ID prefix for the widget elements */
     public $id;
-    /** @var string */
+    /** @var string Title of the widget panel */
     public $title;
+    /** @var array Options for the GridView */
+    public $options;
+    /** @var string CSS class for panel, for example: panel-primary */
+    public $panelCssClass;
 
     public function init()
     {
         parent::init();
 
+        /** @var ActiveDataProvider $dp */
+        $dp = $this->options['dataProvider'];
+
         //$this->_controller = \Yii::createObject($this->controller);
 
-        if (!$this->dataProvider || ! $this->dataProvider instanceof ActiveDataProvider) {
+        if (!$dp || !$dp instanceof ActiveDataProvider) {
             throw new InvalidConfigException('dataProvider must be correct ActiveDataProvider.');
         }
 
@@ -38,20 +43,23 @@ class GridViewPanelled extends Widget
             throw new InvalidConfigException('You must specify a value for ID.');
         }
 
-        if ($this->dataProvider->sort->sortParam == 'sort') {
-            $this->dataProvider->sort->sortParam = $this->id . '-sort';
+        if ($dp->sort->sortParam == 'sort') {
+            $dp->sort->sortParam = $this->id . '-sort';
         }
-        if ($this->dataProvider->pagination->pageParam == 'page') {
-            $this->dataProvider->pagination->pageParam = $this->id . '-page';
+        if ($dp->pagination->pageParam == 'page') {
+            $dp->pagination->pageParam = $this->id . '-page';
         }
+
+        $this->options['dataProvider'] = $dp;
     }
 
     public function run()
     {
         return $this->render('gridview-panelled', [
             'id' => $this->id,
+            'panelCssClass' => $this->panelCssClass,
             'title' => $this->title,
-            'dataProvider' => $this->dataProvider,
+            'options' => $this->options,
         ]);
     }
 }
