@@ -11,5 +11,8 @@
       }
     },
     "process-timeout": 1800
+  },
+  "require-dev": {
+    "yiisoft/yii2-debug": "^2.0"
   }
 }

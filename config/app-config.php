@@ -2,7 +2,7 @@
 return [
     'id' => 'hmvc-demo',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'debug'],
     'components' => [
         'request' => [
             'cookieValidationKey' => '1234567890',
@@ -21,5 +21,11 @@ return [
                 ],
             ],
         ],
-    ]
+    ],
+    'modules' => [
+        'debug' => [
+            'class' => 'yii\debug\Module',
+            'allowedIPs' => ['*'],
+        ],
+    ],
 ];
