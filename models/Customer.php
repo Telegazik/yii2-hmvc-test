@@ -17,11 +17,21 @@ use yii\db\ActiveRecord;
  * @property string $id [INTEGER]
  * @property string $name [VARCHAR]
  * @property string $created_at [INTEGER UNSIGNED]
+ *
+ * @property CustomerAddress[] $addresses
  */
 class Customer extends ActiveRecord
 {
     public static function tableName()
     {
         return 'customers';
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAddresses()
+    {
+        return $this->hasMany(CustomerAddress::className(), ['customer_id' => 'id']);
     }
 }
