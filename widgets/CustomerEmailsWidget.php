@@ -14,7 +14,7 @@ use yii\base\InvalidCallException;
 use yii\base\Widget;
 use yii\data\ActiveDataProvider;
 
-class CustomerAddressesWidget extends Widget
+class CustomerEmailsWidget extends Widget
 {
     /** @var Customer */
     public $customer;
@@ -28,16 +28,16 @@ class CustomerAddressesWidget extends Widget
         }
 
         $provider = new ActiveDataProvider([
-            'query' => $this->customer->getAddresses(),
+            'query' => $this->customer->getEmails(),
             'sort' => [
-                'sortParam' => 'cst-adr-srt'
+                'sortParam' => 'cst-eml-srt'
             ],
             'pagination' => [
-                'pageParam' => 'cst-adr-pg'
+                'pageParam' => 'cst-eml-pg'
             ]
         ]);
 
-        return $this->render('customer-addresses', [
+        return $this->render('customer-emails', [
             'provider' => $provider,
             'columns' => $this->columns,
         ]);

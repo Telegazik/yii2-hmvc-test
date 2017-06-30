@@ -14,6 +14,7 @@ use yii\db\ActiveRecord;
 /**
  * Class CustomerAddress
  * @package app\models
+ *
  * @property string $customer_id [INTEGER]
  * @property string $address1 [VARCHAR]
  * @property string $address2 [VARCHAR]
@@ -24,6 +25,7 @@ use yii\db\ActiveRecord;
  * @property string $id [INTEGER]
  *
  * @property Customer $customer
+ * @property string $fullAddress Full address string
  */
 class CustomerAddress extends ActiveRecord
 {
@@ -38,5 +40,23 @@ class CustomerAddress extends ActiveRecord
     public function getCustomer()
     {
         return $this->hasOne(Customer::className(), ['id' => 'customer_id']);
+    }
+
+    /**
+     * Formation full address string
+     *
+     * @return string
+     */
+    public function getFullAddress()
+    {
+        $address = [];
+
+        foreach (['address1', 'address2', 'city', 'region', 'country', 'zip'] as $key) {
+            if ($this->getAttribute($key)) {
+                $address[] = $this->getAttribute($key);
+            }
+        }
+
+        return implode(', ', $address);
     }
 }
